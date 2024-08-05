@@ -1,0 +1,54 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+__file__path = 'SaleTable.csv'
+
+data = pd.read_csv(__file__path)
+df = pd.read_csv('product_detail_technology.csv')
+
+df_cleaned = data.dropna()
+print(df_cleaned)
+
+#biểu đồ phân biệt số lượng hàng tồn kho theo sản phẩm  
+grouped = df.groupby('product_name')['stock_quantity'].sum()
+
+
+plt.figure(figsize=(10, 6))
+grouped.plot(kind='bar', color='skyblue')
+plt.title('Total Stock Quantity by Product Name')
+plt.xlabel('Product Name')
+plt.ylabel('Total Stock Quantity')
+plt.xticks(rotation=30, ha='right')  # Xoay tên sản phẩm để dễ đọc hơn
+plt.show()
+#
+
+df1 = pd.read_csv('SaleTable.csv')
+df1['TotalPrice'] = pd.to_numeric(df1['TotalPrice'], errors='coerce')
+
+# Aggregate total sales by SalesChannel
+sales_by_channel = df1.groupby('SalesChannel')['TotalPrice'].sum()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+sales_by_channel.plot(kind='bar', color='skyblue')
+plt.title('Total Sales by Sales Channel')
+plt.xlabel('Sales Channel')
+plt.ylabel('Total Sales ($)')
+plt.xticks(rotation=45, ha='right')  # Rotate labels for better readability
+plt.tight_layout()
+
+# Show the plot
+plt.show()
+
+
+
+
+
+
+
+
+
